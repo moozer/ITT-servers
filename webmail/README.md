@@ -1,5 +1,7 @@
 Installing a really *insecure* webmail
 
+Start with a minimal debian installation
+
 1. Install mysql server
 
   apt-get install mysql-server
