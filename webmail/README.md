@@ -23,7 +23,14 @@ Start with a minimal debian installation
 4. Roundcube config change
 
   nano /etc/roundcube/main.inc.php
+...
+// IMAP
+// ----------------------------------
 
+// the mail host chosen to perform the log-i00n
+
+$rcmail_config['default_host'] = '10.165.16.31';
+...
   ...
 
   $rcmail_config['smtp_server'] = '<school internal mailserver>';
