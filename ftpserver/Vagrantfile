@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+ENV['DEFAULT_VAGRANT_PROVIDER'] = 'libvirt'
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -16,4 +18,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", type: "9p"
   config.vm.synced_folder "./data", "/server/ftp", type: "9p"
   config.vm.synced_folder './config', '/opt/config', type: "9p"
+
+  config.vm.provision :shell, path: "config/setup.sh"
 end
