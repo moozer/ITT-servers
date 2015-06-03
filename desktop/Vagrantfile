@@ -17,8 +17,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder ".", "/vagrant", type: "9p"
 
+  config.vm.provision "shell", inline: 
+    $script = <<SCRIPT
+    echo Shell provisioning...
+    sudo rm /etc/apt/apt.conf
+    sudo apt-get install puppet -y
+SCRIPT
+
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "manifests"
     puppet.manifest_file = "default.pp"
+    puppet.options = '--test'    # see the output
+    puppet.synced_folder_type = "9p"
   end
 end
