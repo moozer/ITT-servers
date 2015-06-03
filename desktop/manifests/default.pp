@@ -7,6 +7,7 @@ user { $user:
 
 package { "task-xfce-desktop":
     ensure => "latest"
-} -> exec { "rebooting":
-    command => "/sbin/reboot now",
-}
+} 
+package { "xrdp":
+    ensure => "latest"
+} 
