@@ -17,10 +17,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder ".", "/vagrant", type: "9p"
 
+  config.vm.provision "shell", inline:
+    $script = <<SCRIPT
+    sudo rm /etc/apt/apt.conf
+    echo 'Acquire::http::Proxy "http://aptproxy:3142";' > /etc/apt/apt.conf
+SCRIPT
+
+
   config.vm.provision "shell", inline: 
     $script = <<SCRIPT
     echo Shell provisioning...
-    sudo rm /etc/apt/apt.conf
     sudo apt-get install puppet -y
 SCRIPT
 
