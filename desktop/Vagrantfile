@@ -29,5 +29,9 @@ SCRIPT
     puppet.manifest_file = "default.pp"
     puppet.options = '--test'    # see the output
     puppet.synced_folder_type = "9p"
+    puppet.facter = {
+      "user" => "user",
+      "password" => "passwd",
+    }
   end
 end
