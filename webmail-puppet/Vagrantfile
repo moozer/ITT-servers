@@ -1,0 +1,41 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "deb8-base"
+
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.host = ""
+  end
+
+  config.vm.synced_folder ".", "/vagrant", type: "9p"
+  config.vm.synced_folder "./data", "/server/ftp", type: "9p"
+
+  # handle apt-proxy
+  config.vm.provision "shell", inline:
+    $script = <<SCRIPT
+    rm /etc/apt/apt.conf
+    echo 'Acquire::http::Proxy "http://aptproxy:3142";' > /etc/apt/apt.conf
+SCRIPT
+
+  # handle installing puppet
+  config.vm.provision "shell", path: "installModules.sh"
+
+  # and provision using puppet
+  config.vm.provision "puppet" do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.manifest_file = "default.pp"
+    puppet.options = '--test'    # see the output
+    puppet.synced_folder_type = "9p"
+    puppet.facter = {
+      "imapServer" => "10.165.16.31",
+      "user" => "user",
+      "password" => "passwd",
+    }
+  end
+
+end
