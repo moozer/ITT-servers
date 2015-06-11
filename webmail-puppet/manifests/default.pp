@@ -5,7 +5,15 @@ user { $user:
   managehome => true,
 }
 
-class {'apache': }
+#class {'apache': }
+class { 'apt': 
+    always_apt_update => true,
+}
+
+class { 'roundcube::roundcubeweb': }
+#class { 'roundcube::webservice::apache': }
+#class { 'roundcube::database::postgresql': }
+
 
 #apache::vhost { 'webmail':
 #  port    => '80',
